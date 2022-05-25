@@ -1,0 +1,21 @@
+name: Q Testing
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test 1
+        run: |
+          sleep 60
+          echo "Success"
+      - name: Test 2
+        run: |
+          sleep 180
+          echo "Success"
