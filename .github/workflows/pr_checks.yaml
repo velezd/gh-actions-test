@@ -13,6 +13,11 @@ jobs:
     if: startsWith(github.event.comment.body, '/pipeline')
     runs-on: ubuntu-latest
     steps:
+      - name: Get PR
+        uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          state: open
       - name: SetUp
         run: |
           git clone --depth 1 https://github.com/rhinstaller/permian.git
@@ -22,10 +27,11 @@ jobs:
       - name: Run pipeline
         working-directory: ./permian
         run: |
+          echo ${{ github.event.issue.number }}
           echo "- type: github-pr" > tests/test_library/demo/github_rep.yaml
           ./in_container ./pipeline \
             -o reportSenders.additional_reporting=library://github_rep.yaml \
-            -o github.pull-request=${{ github.event.pull_request.number }} \
+            -o github.pull-request=${{ steps.findPr.outputs.number }} \
             -o github.repository=${{ github.repository }} \
             -o github.token=${{ secrets.GITHUB_TOKEN }} \
             demo
