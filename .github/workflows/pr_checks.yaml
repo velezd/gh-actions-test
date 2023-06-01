@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: SetUp
         run: |
-          git clone -b github_fix --depth 1 https://github.com/rhinstaller/permian.git
+          git clone --depth 1 https://github.com/rhinstaller/permian.git
           pushd permian
           ./build_container
           popd
